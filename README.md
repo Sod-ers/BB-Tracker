@@ -4,7 +4,8 @@ Scripts to detect map changes at BB Game Servers.
 ## Dependencies:
 Postfix\
 S-nail\
-Mailutils
+Mailutils\
+Epson TM-T20II Software & Documents Disc (tmx-cups-2.0.3.0.tar.gz)
 
 ## Automatic Execution & Request Rate Adjustment:
 Adjust the directory structure for your machine & add the following code blocks to your crontab file using the command ```crontab -e```.
