@@ -10,4 +10,5 @@ Set the path so the system will recognize the script.
 ```* * * * * bash -lc /home/soders/BB-Tracker/BB-Tracker.sh```
 Adjust the rate of execution by changing the star values. The current configuration executes every minute.
 
+[!TIP]
 https://crontab.guru/ is a good resource for this.
