@@ -2,7 +2,7 @@
 Scripts to detect map changes at BB Game Servers.
 
 ## Automatic Execution & Request Rate Adjustment:
-Adjust the directory structure for your machine & add the following lines to your crontab file using the command ```crontab -e```.
+Adjust the directory structure for your machine & add the following code blocks to your crontab file using the command ```crontab -e```.
 
 
 Set the path so the system will recognize the script.
