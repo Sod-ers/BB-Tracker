@@ -1,0 +1,1 @@
+{"data":{"serverinfo":[{"name":"surf","queryInfo":{"map":"surf_santorini_ksf"}},{"name":"climb","queryInfo":{"map":"kz_sanctuary"}},{"name":"surf-hard","queryInfo":{"map":"surf_sinner"}},{"name":"deathrun","queryInfo":{"map":"dr_chateau_b2"}}]}}
