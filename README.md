@@ -5,7 +5,7 @@ Scripts to detect map changes at BB Game Servers.
 Adjust the directory structure for your machine & add the following code blocks to your crontab file using the command ```crontab -e```.
 
 Set the path so the system will recognize the script.
-  ```PATH=/bin:/usr/bin:/home/soders/BB-Tracker/```
+   ```PATH=/bin:/usr/bin:/home/soders/BB-Tracker/```
 
 
 ```* * * * * bash -lc /home/soders/BB-Tracker/BB-Tracker.sh```
