@@ -28,7 +28,7 @@ Adjust the directory structure for your system & add the following code blocks t
 ```chmod -x "~/BB-Tracker/BB-Tracker.sh"```
 
 ## Results:
-If a map change is detected, print the relevant info. Scanning the qr code sends a command to join the server.\
+If a map change is detected, print relevant info. Scanning the qr code sends a command to join the server.\
 ```steam steam://connect/149.56.38.33:27015```\
 ![1](https://github.com/Sod-ers/BB-Tracker/blob/main/Examples/1.jpg)
 
