@@ -34,5 +34,5 @@ If a map change is detected, print the current maps, when the change occurred, &
 I can ask Siri what the current maps are.\
 ![2](https://github.com/Sod-ers/BB-Tracker/blob/main/Examples/2.jpg)
 
-& I receive an email when any of my favorite maps are detected.\
+I receive an email when any of my favorite maps are detected.\
 ![3](https://github.com/Sod-ers/BB-Tracker/blob/main/Examples/3.jpg)
