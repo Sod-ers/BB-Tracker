@@ -28,4 +28,5 @@ Adjust the directory structure for your system & add the following code blocks t
 ```chmod -x "~/BB-Tracker/BB-Tracker.sh"```
 
 ## Results:
-If a map change is detected, print the current maps, the time the change occurred, & relevant qr codes to run the following command on my system. ```steam steam://connect/149.56.38.33:27015```
+If a map change is detected, print the current maps, the time the change occurred, & relevant qr codes to run the following command on my system. ```steam steam://connect/149.56.38.33:27015```\
+![alt text](https://github.com/Sod-ers/BB-Tracker/blob/main/Examples/1.jpg)
