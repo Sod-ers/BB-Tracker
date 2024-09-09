@@ -32,7 +32,7 @@ When a map change is detected, print relevant info. Scanning the qr code sends a
 ```steam steam://connect/149.56.38.33:27015```\
 ![1](https://github.com/Sod-ers/BB-Tracker/blob/main/Examples/1.jpg)
 
-Asking Siri what the current maps are:\
+Asking Siri for the current maps:\
 ![2](https://github.com/Sod-ers/BB-Tracker/blob/main/Examples/2.jpg)
 
 Receiving an email when any of my favorite maps are detected:\
