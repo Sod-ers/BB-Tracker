@@ -2,13 +2,14 @@
 Scripts to detect map changes at BB Game Servers.
 
 ## Dependencies:
+BB GraphQL api key\
 Postfix\
 S-nail\
 Mailutils\
 Epson TM-T20II Software & Documents Disc (tmx-cups-2.0.3.0.tar.gz)
 
 ## Automatic Execution & Request Rate Adjustment:
-Adjust the directory structure for your machine & add the following code blocks to your crontab file using the command ```crontab -e```.
+Adjust the directory structure for your system & add the following code blocks to your crontab file using the command ```crontab -e```.
 
 > Set the path so the system will recognize the script.
 > 
@@ -25,3 +26,6 @@ Adjust the directory structure for your machine & add the following code blocks 
 > Revoke permissions to execute the script. +x to enable.
 
 ```chmod -x "~/BB-Tracker/BB-Tracker.sh"```
+
+## Results:
+If a map change is detected, print the current maps, the time the change occurred, & relevant qr codes to run the following command on my system. ```steam steam://connect/149.56.38.33:27015```
