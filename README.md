@@ -22,14 +22,15 @@ Adjust the directory structure for your system & add the following code blocks t
 > [!TIP]
 > https://crontab.guru/ is a good resource for this.
 
-## Enabling & Disabling:
+## Enable & Disable:
 > Revoke permissions to execute the script. +x to enable.
 
 ```chmod -x "~/BB-Tracker/BB-Tracker.sh"```
 
 ## Results:
-When a map change is detected, print relevant info. Scanning the qr code sends a command to join the server:\
-```steam steam://connect/149.56.38.33:27015```\
+When a map change is detected, print relevant info. Scanning the qr code sends a command to join the server:
+>```steam steam://connect/149.56.38.33:27015```
+
 ![1](https://github.com/Sod-ers/BB-Tracker/blob/main/Examples/1.jpg)
 
 Asking Siri for the current maps:\
