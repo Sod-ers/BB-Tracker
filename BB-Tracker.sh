@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Get fresh data
 curl 'https://bbservers.dev/v2/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: https://bbservers.dev' -H 'apiKey: xxx' --data-binary '{"query":"{\n  serverinfo {\n    name\n    queryInfo{\n      map\n    }\n  }\n}"}' --compressed -o ~/BB-Tracker/Fresh-Data.txt
 
