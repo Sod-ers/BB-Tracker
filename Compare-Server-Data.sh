@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Compare last known maps to current maps
 diff --brief <(sort ~/BB-Tracker/Active-Maps.txt) <(sort ~/BB-Tracker/Active-Server-Data-Temp.txt) >/dev/null
 comp_value=$?
