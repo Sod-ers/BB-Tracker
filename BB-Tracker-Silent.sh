@@ -11,8 +11,5 @@ date "+%I:%M:%S %p  %D" > ~/BB-Tracker/Time.txt
 # Parse data to only surf maps
 grep -o 'surf_[^"]*' ~/BB-Tracker/Fresh-Data.txt > ~/BB-Tracker/Active-Maps.txt
 
-# Compare server data
-~/BB-Tracker/Compare-Server-Data.sh
-
 # Copy to temp data
 cp ~/BB-Tracker/Active-Maps.txt ~/BB-Tracker/Active-Server-Data-Temp.txt

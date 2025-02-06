@@ -1,13 +1,5 @@
 # BB-Tracker
 Scripts to detect map changes at BB Game Servers.
-
-## Dependencies:
-BB GraphQL api key\
-Postfix\
-S-nail\
-Mailutils\
-Epson TM-T20II Software & Documents Disc (tmx-cups-2.0.3.0.tar.gz)
-
 ## Automatic Execution & Request Rate Adjustment:
 Adjust the directory structure for your system & add the following code blocks to your crontab file using the command ```crontab -e```.
 
@@ -17,10 +9,10 @@ Adjust the directory structure for your system & add the following code blocks t
 
 > Adjust the rate of execution by changing the star values. The current configuration executes every minute.
 
-```* * * * * bash -lc /home/soders/BB-Tracker/BB-Tracker.sh```
+```* * * * * bash -lc /home/soders/BB-Tracker/BB-Tracker.sh > /dev/null 2>&1&```
 
 > [!TIP]
-> https://crontab.guru/ is a good resource for this.
+> https://cron.help/ is a good resource for this.
 
 ## Enable & Disable:
 > Revoke permissions to execute the script. +x to enable.
@@ -44,4 +36,10 @@ Receiving an email when any of my favorite maps are detected:\
 - /dev/usb/lp1 may change, I print to lp0-2 to avoid this issue. You need to add your user to the group to have printing permissions.
 > Example: ```sudo usermod -a -G lp soders```
 - Any other errors: Bailing out, you are on your own. Good luck.
-
+## Dependencies:
+BB GraphQL api key\
+Postfix\
+S-nail\
+Mailutils\
+Epson TM-T20II Software & Documents Disc (tmx-cups-2.0.3.0.tar.gz)\
+CUPS

@@ -1,1 +1,1 @@
-{"data":{"serverinfo":[{"name":"surf","queryInfo":{"map":"surf_santorini_ksf"}},{"name":"climb","queryInfo":{"map":"kz_sanctuary"}},{"name":"surf-hard","queryInfo":{"map":"surf_sinner"}},{"name":"deathrun","queryInfo":{"map":"dr_chateau_b2"}}]}}
+{"data":{"serverinfo":[{"name":"climb","queryInfo":{"map":"kz_shroomcave"}},{"name":"surf","queryInfo":{"map":"surf_meme"}},{"name":"surf-hard","queryInfo":{"map":"surf_scarlet"}},{"name":"deathrun","queryInfo":{"map":"deathrun_industrial"}},{"name":"gofish","queryInfo":{"map":"gm_sevenseas"}}]}}
