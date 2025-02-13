@@ -1,1 +1,0 @@
-{"data":{"serverinfo":[{"name":"climb","queryInfo":{"map":"kz_shroomcave"}},{"name":"surf","queryInfo":{"map":"surf_meme"}},{"name":"surf-hard","queryInfo":{"map":"surf_scarlet"}},{"name":"deathrun","queryInfo":{"map":"deathrun_industrial"}},{"name":"gofish","queryInfo":{"map":"gm_sevenseas"}}]}}
