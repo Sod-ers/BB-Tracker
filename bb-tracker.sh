@@ -53,7 +53,7 @@ api_key_validator
 
 username_validator () {
 chmod +x /tmp/bb-tracker/calls/login.sh
-/tmp/bb-tracker/calls/bb-tracker-login.sh
+/tmp/bb-tracker/calls/login.sh
 if [ -s ~/.config/bb-tracker/username.txt ]; then
 echo "Username detected - $log_timestamp" >> /tmp/bb-tracker/log.txt
 else
