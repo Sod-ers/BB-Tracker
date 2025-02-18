@@ -11,7 +11,20 @@ mkdir /tmp/bb-tracker/json/ 2> /dev/null
 mkdir ~/.config/bb-tracker/ 2> /dev/null
 touch /tmp/bb-tracker/log.txt
 log_timestamp=$(date "+%D  %I:%M:%S %p")
-api_key=$(cat ~/.config/bb-tracker/api-key.txt)
+api_key=$(cat ~/.config/bb-tracker/api-key.txt 2>/dev/null)
+
+username_validator () {
+chmod +x /tmp/bb-tracker/calls/login.sh
+/tmp/bb-tracker/calls/login.sh
+if [ ! -f ~/.config/bb-tracker/username.txt ]; then
+echo -e "${RED}Incorrect apiKey, try again..${NC}"
+echo "Username not detected - $log_timestamp" >> /tmp/bb-tracker/log.txt
+rm ~/.config/bb-tracker/api-key.txt
+api_key_setup
+else
+echo "Username detected - $log_timestamp" >> /tmp/bb-tracker/log.txt
+fi
+}
 
 api_key_setup () {
 touch ~/.config/bb-tracker/api-key.txt
@@ -36,6 +49,7 @@ wget https://raw.githubusercontent.com/Sod-ers/BB-Tracker/refs/heads/main/calls/
 sed -i "s/replace-id/$ACCOUNT_ID/g" /tmp/bb-tracker/calls/login.sh
 echo -e "${GREEN}apiKey Set.${NC}"
 echo "apiKey set - $log_timestamp" >> /tmp/bb-tracker/log.txt
+username_validator
 }
 
 api_key_validator () {
@@ -44,24 +58,11 @@ echo -e "${RED}apiKey not detected..${NC}"
 echo "apiKey not detected - $log_timestamp" >> /tmp/bb-tracker/log.txt
 api_key_setup
 else
+echo -e "${GREEN}apiKey detected.${NC}"
 echo "apiKey detected - $log_timestamp" >> /tmp/bb-tracker/log.txt
 fi
 }
-
 api_key_validator
 
-username_validator () {
-chmod +x /tmp/bb-tracker/calls/login.sh
-/tmp/bb-tracker/calls/login.sh
-if [ ! -f ~/.config/bb-tracker/username.txt ]; then
-echo -e "${RED}Username not found..${NC}"
-echo "Username not detected - $log_timestamp" >> /tmp/bb-tracker/log.txt
-api_key_setup
-else
-echo "Username detected - $log_timestamp" >> /tmp/bb-tracker/log.txt
-fi
-}
-
-username_validator
 username=$(cat ~/.config/bb-tracker/username.txt)
 echo -e "${YELLOW}Welcome, $username.${NC}"
