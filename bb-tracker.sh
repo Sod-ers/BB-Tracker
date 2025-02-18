@@ -6,8 +6,8 @@ YELLOW='\033[0;33m'
 NC='\033[0m'
 
 mkdir /tmp/bb-tracker/ 2> /dev/null
-mkdir /tmp/bb-tracker/calls 2> /dev/null
-mkdir /tmp/bb-tracker/json 2> /dev/null
+mkdir /tmp/bb-tracker/calls/ 2> /dev/null
+mkdir /tmp/bb-tracker/json/ 2> /dev/null
 mkdir ~/.config/bb-tracker/ 2> /dev/null
 touch /tmp/bb-tracker/log.txt
 log_timestamp=$(date "+%D  %I:%M:%S %p")
@@ -40,11 +40,11 @@ echo "apiKey set - $log_timestamp" >> /tmp/bb-tracker/log.txt
 
 api_key_validator () {
 if [ ! -f ~/.config/bb-tracker/api-key.txt ]; then
-echo "apiKey detected - $log_timestamp" >> /tmp/bb-tracker/log.txt
-else
 echo -e "${RED}apiKey not detected..${NC}"
 echo "apiKey not detected - $log_timestamp" >> /tmp/bb-tracker/log.txt
 api_key_setup
+else
+echo "apiKey detected - $log_timestamp" >> /tmp/bb-tracker/log.txt
 fi
 }
 
@@ -54,10 +54,11 @@ username_validator () {
 chmod +x /tmp/bb-tracker/calls/login.sh
 /tmp/bb-tracker/calls/login.sh
 if [ ! -f ~/.config/bb-tracker/username.txt ]; then
-echo "Username detected - $log_timestamp" >> /tmp/bb-tracker/log.txt
-else
 echo -e "${RED}Username not found..${NC}"
 echo "Username not detected - $log_timestamp" >> /tmp/bb-tracker/log.txt
+api_key_setup
+else
+echo "Username detected - $log_timestamp" >> /tmp/bb-tracker/log.txt
 fi
 }
 
