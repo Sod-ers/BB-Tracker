@@ -32,8 +32,9 @@ echo
 echo "$bb_tracker_api_key" > ~/.config/bb-tracker/api-key.txt
 read -p "$(echo -e ${RED}"Enter account ID: "${NC})" ACCOUNT_ID
 echo "$ACCOUNT_ID" > ~/.config/bb-tracker/account-id.txt
-
-sed -i "s/replace-id/$ACCOUNT_ID/g" /tmp/bb-tracker/calls/bb-tracker-login.sh
+cd /tmp/bb-tracker/calls
+wget https://raw.githubusercontent.com/Sod-ers/BB-Tracker/refs/heads/main/calls/login.sh 2> /dev/null
+sed -i "s/replace-id/$ACCOUNT_ID/g" /tmp/bb-tracker/calls/login.sh
 echo -e "${GREEN}apiKey Set.${NC}"
 echo "apiKey set - $log_timestamp" >> /tmp/bb-tracker/log.txt
 }
@@ -51,6 +52,7 @@ fi
 api_key_validator
 
 username_validator () {
+chmod +x /tmp/bb-tracker/calls/login.sh
 /tmp/bb-tracker/calls/bb-tracker-login.sh
 if [ -s ~/.config/bb-tracker/username.txt ]; then
 echo "Username detected - $log_timestamp" >> /tmp/bb-tracker/log.txt
