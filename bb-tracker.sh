@@ -107,10 +107,33 @@ echo -e "${YELLOW}Welcome to BB Tracker 2.0, $username.${NC}"
 
 printf "\033]0;%s\a" "BB Tracker"
 export PS3=$'\033[0;33mSelect an option: \e[0m'
-options=("Check Lottery" "Check Loading Message" "Logout" "Quit")
+options=("Maps" "Check Lottery" "Check Loading Message" "Settings" "Logout" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
+        "Maps")
+export PS3=$'\033[0;33mSelect an option: \e[0m'
+options=("Check Current Maps" "option 2" "Go Back")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "Check Current Maps")
+            echo -e "${YELLOW}Coming soon.${NC}"
+            break
+            ;;
+        "option 2")
+            echo -e "${YELLOW}Coming soon.${NC}"
+            break
+            ;;
+        "Go Back")
+bash /tmp/bb-tracker.sh        
+            break
+            ;;
+        *) echo "invalid option $REPLY";;
+    esac
+done
+            break
+            ;;      
         "Check Lottery")
 curl -s 'https://bbservers.dev/v2/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: https://bbservers.dev' -H "apiKey: $api_key" --data-binary '{"query":"query{\n\t\tmiscdata { \n      lottery\n    }\n    }"}' --compressed | jq '.' > /tmp/bb-tracker/json/lottery-raw.json
 touch /tmp/bb-tracker/txt/lottery-refined.txt
@@ -136,9 +159,7 @@ jq -r .tagline /tmp/bb-tracker/json/loading-message-raw-2.json > /tmp/bb-tracker
 loading_message_user_id=$(cat /tmp/bb-tracker/txt/loading-message-user-id-refined.txt)
 loading_message_user=$(cat /tmp/bb-tracker/txt/loading-message-user-refined.txt)
 current_loading_message=$(cat /tmp/bb-tracker/txt/loading-message-refined.txt)
-echo " "
-echo -e "${YELLOW}Current loading message:${NC}\n${NC}$current_loading_message${NC}"
-echo " "
+echo -e "\n${YELLOW}Current loading message:${NC}\n${NC}$current_loading_message${NC}\n"
 echo -e "${YELLOW}By:\n${NC}${NC}$loading_message_user${NC} ${YELLOW}($loading_message_user_id)${NC}\n"
 echo -e "${RED}Press any key to proceed.${NC}"
 while true; do
@@ -149,13 +170,37 @@ break
 fi
 done
             break
-            ;;            
+            ;;                        
+        "Settings")
+export PS3=$'\033[0;33mSelect an option: \e[0m'
+options=("Toggle Printer" "Go Back")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "Toggle Printer")
+if [ ! -f ~/.config/bb-tracker/thermal-printer.txt ]; then
+echo -e "${RED}Thermal printer not connected. Visit BB-Tracker on GitHub for instructions.${NC}" && sleep 3
+bash /tmp/bb-tracker.sh 
+else
+echo -e "${GREEN}Supported.${NC}"
+fi
+            break
+            ;;
+        "Go Back")
+bash /tmp/bb-tracker.sh        
+            break
+            ;;
+        *) echo "invalid option $REPLY";;
+    esac
+done
+            break
+            ;;
         "Logout")
 rm -r ~/.config/bb-tracker/ 2> /dev/null
 rm -r /tmp/bb-tracker/ 2> /dev/null
 rm /tmp/bb-tracker.sh 2> /dev/null
             break
-            ;;
+            ;;            
         "Quit")
             break
             ;;
