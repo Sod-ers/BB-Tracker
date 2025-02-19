@@ -16,31 +16,37 @@ api_key=$(cat ~/.config/bb-tracker/api-key.txt 2>/dev/null)
 api_key_setup () {
 rm ~/.config/bb-tracker/api-key.txt 2> /dev/null & rm ~/.config/bb-tracker/username.txt 2> /dev/null & rm ~/.config/bb-tracker/account-id.txt 2> /dev/null & rm /tmp/bb-tracker/calls/login.sh 2> /dev/null
 
-echo -e "${RED}Configuration missing or incorrect..${NC}"
+echo -e "${RED}apiKey missing or incorrect..${NC}"
 
-prompt="Enter BB api key: "
-bb_tracker_api_key=""
+unset bb_tracker_api_key
+unset CHARCOUNT
+
+echo -n "Enter BB apiKey: "
 
 stty -echo
 
-printf "$prompt"
-
-while IFS= read -r -s -n1 char; do
-  if [[ $char == $'\0' ]]; then
-    break
-  elif [[ $char == $'\177' ]]; then
-    if [ ${#bb_tracker_api_key} -gt 0 ]; then
-      bb_tracker_api_key="${bb_tracker_api_key%?}"
-      printf "\b \b"
+CHARCOUNT=0
+while IFS= read -p "$PROMPT" -r -s -n 1 CHAR
+do
+    if [[ $CHAR == $'\0' ]] ; then
+        break
     fi
-  else
-    bb_tracker_api_key+="$char"
-    printf "*"
-  fi
+    if [[ $CHAR == $'\177' ]] ; then
+        if [ $CHARCOUNT -gt 0 ] ; then
+            CHARCOUNT=$((CHARCOUNT-1))
+            PROMPT=$'\b \b'
+            bb_tracker_api_key="${bb_tracker_api_key%?}"
+        else
+            PROMPT=''
+        fi
+    else
+        CHARCOUNT=$((CHARCOUNT+1))
+        PROMPT='*'
+        bb_tracker_api_key+="$CHAR"
+    fi
 done
 
 stty echo
-printf "\n"
 
 touch ~/.config/bb-tracker/api-key.txt
 echo $bb_tracker_api_key > ~/.config/bb-tracker/api-key.txt
@@ -111,7 +117,7 @@ do
     case $opt in
         "Test")
             echo -e "${GREEN}Welcome to BB-Tracker 2.0, $username.${NC}"
-            bash /tmp/bb-tracker.sh
+            # bash /tmp/bb-tracker.sh
             break
             ;;
         "Logout")
