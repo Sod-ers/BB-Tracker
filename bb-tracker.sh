@@ -8,6 +8,7 @@ YELLOW='\033[0;33m'
 mkdir /tmp/bb-tracker/ 2> /dev/null
 mkdir /tmp/bb-tracker/calls/ 2> /dev/null
 mkdir /tmp/bb-tracker/json/ 2> /dev/null
+mkdir /tmp/bb-tracker/txt/ 2> /dev/null
 touch /tmp/bb-tracker/log.txt
 mkdir ~/.config/bb-tracker/ 2> /dev/null
 log_timestamp=$(date "+%D  %I:%M:%S %p")
@@ -101,19 +102,35 @@ fi
 api_key_validator
 
 username=$(cat ~/.config/bb-tracker/username.txt)
-echo -e "${YELLOW}Welcome, $username.${NC}"
+echo -e "${YELLOW}Welcome to BB Tracker 2.0, $username.${NC}"
 
-printf "\033]0;%s\a" "BB-Tracker"
+printf "\033]0;%s\a" "BB Tracker"
 export PS3=$'\033[0;33mSelect an option: \e[0m'
-options=("Test" "Logout" "Quit")
+options=("Test" "Check Lottery" "Logout" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
         "Test")
-            echo -e "${GREEN}Welcome to BB-Tracker 2.0, $username.${NC}"
+            echo -e "${GREEN}Welcome to BB Tracker 2.0, $username.${NC}"
             bash /tmp/bb-tracker.sh
             break
             ;;
+        "Check Lottery")
+curl -s 'https://bbservers.dev/v2/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: https://bbservers.dev' -H "apiKey: $api_key" --data-binary '{"query":"query{\n\t\tmiscdata { \n      lottery\n    }\n    }"}' --compressed | jq '.' > /tmp/bb-tracker/json/lottery-raw.json
+touch /tmp/bb-tracker/txt/lottery-refined.txt
+jq -r .data.miscdata.lottery /tmp/bb-tracker/json/lottery-raw.json > /tmp/bb-tracker/txt/lottery-refined.txt
+current_lottery=$(cat /tmp/bb-tracker/txt/lottery-refined.txt)
+echo -e "${YELLOW}Current pot:${NC} ${NC}$current_lottery${NC}"
+echo -e "${RED}Press any key to proceed.${NC}"
+while true; do
+read -rsn1 key
+if [[ -n "$key" ]]; then
+bash /tmp/bb-tracker.sh
+break
+fi
+done
+            break
+            ;;            
         "Logout")
 rm -r ~/.config/bb-tracker/ 2> /dev/null
 rm -r /tmp/bb-tracker/ 2> /dev/null
