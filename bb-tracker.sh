@@ -102,6 +102,13 @@ api_key_validator
 
 api_key=$(cat ~/.config/bb-tracker/api-key.txt 2>/dev/null)
 
+platinum_check () {
+ACCOUNT_ID=$(cat ~/.config/bb-tracker/account-id.txt)
+wget -O /tmp/bb-tracker/calls/platinum_check.sh https://raw.githubusercontent.com/Sod-ers/BB-Tracker/refs/heads/main/calls/platinum_check.sh 2> /dev/null
+sed -i "s/replace-id/$ACCOUNT_ID/g" /tmp/bb-tracker/calls/platinum_check.sh
+bash /tmp/bb-tracker/calls/platinum_check.sh
+}
+
 username=$(cat ~/.config/bb-tracker/username.txt)
 echo -e "${YELLOW}Welcome to BB Tracker 2.0, $username.${NC}"
 
@@ -113,16 +120,13 @@ do
     case $opt in
         "Maps")
 export PS3=$'\033[0;33mSelect an option: \e[0m'
-options=("Check Current Maps" "option 2" "Go Back")
+options=("Check Current Maps" "Go Back")
 select opt in "${options[@]}"
 do
     case $opt in
         "Check Current Maps")
-            echo -e "${YELLOW}Coming soon.${NC}"
-            break
-            ;;
-        "option 2")
-            echo -e "${YELLOW}Coming soon.${NC}"
+platinum_check
+cat /tmp/bb-tracker/txt/platinum_status.txt
             break
             ;;
         "Go Back")
