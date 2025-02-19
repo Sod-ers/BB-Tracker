@@ -12,7 +12,6 @@ mkdir /tmp/bb-tracker/txt/ 2> /dev/null
 touch /tmp/bb-tracker/log.txt
 mkdir ~/.config/bb-tracker/ 2> /dev/null
 log_timestamp=$(date "+%D  %I:%M:%S %p")
-api_key=$(cat ~/.config/bb-tracker/api-key.txt 2>/dev/null)
 
 api_key_setup () {
 rm ~/.config/bb-tracker/api-key.txt 2> /dev/null & rm ~/.config/bb-tracker/username.txt 2> /dev/null & rm ~/.config/bb-tracker/account-id.txt 2> /dev/null & rm /tmp/bb-tracker/calls/login.sh 2> /dev/null
@@ -101,26 +100,46 @@ fi
 
 api_key_validator
 
+api_key=$(cat ~/.config/bb-tracker/api-key.txt 2>/dev/null)
+
 username=$(cat ~/.config/bb-tracker/username.txt)
 echo -e "${YELLOW}Welcome to BB Tracker 2.0, $username.${NC}"
 
 printf "\033]0;%s\a" "BB Tracker"
 export PS3=$'\033[0;33mSelect an option: \e[0m'
-options=("Test" "Check Lottery" "Logout" "Quit")
+options=("Check Lottery" "Check Loading Message" "Logout" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
-        "Test")
-            echo -e "${GREEN}Welcome to BB Tracker 2.0, $username.${NC}"
-            bash /tmp/bb-tracker.sh
-            break
-            ;;
         "Check Lottery")
 curl -s 'https://bbservers.dev/v2/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: https://bbservers.dev' -H "apiKey: $api_key" --data-binary '{"query":"query{\n\t\tmiscdata { \n      lottery\n    }\n    }"}' --compressed | jq '.' > /tmp/bb-tracker/json/lottery-raw.json
 touch /tmp/bb-tracker/txt/lottery-refined.txt
 jq -r .data.miscdata.lottery /tmp/bb-tracker/json/lottery-raw.json > /tmp/bb-tracker/txt/lottery-refined.txt
 current_lottery=$(cat /tmp/bb-tracker/txt/lottery-refined.txt)
 echo -e "${YELLOW}Current pot:${NC} ${NC}$current_lottery${NC}"
+echo -e "${RED}Press any key to proceed.${NC}"
+while true; do
+read -rsn1 key
+if [[ -n "$key" ]]; then
+bash /tmp/bb-tracker.sh
+break
+fi
+done
+            break
+            ;;
+        "Check Loading Message")
+curl -s 'https://bbservers.dev/v2/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: https://bbservers.dev' -H "apiKey: $api_key" --data-binary '{"query":"query{\n\t\tmiscdata { \n      loadingTagLine\n    }\n    }"}' --compressed | jq '.' > /tmp/bb-tracker/json/loading-message-raw-1.json
+jq -r .data.miscdata.loadingTagLine /tmp/bb-tracker/json/loading-message-raw-1.json | jq '.' > /tmp/bb-tracker/json/loading-message-raw-2.json
+jq -r .user /tmp/bb-tracker/json/loading-message-raw-2.json > /tmp/bb-tracker/txt/loading-message-user-refined.txt
+jq -r .userID /tmp/bb-tracker/json/loading-message-raw-2.json > /tmp/bb-tracker/txt/loading-message-user-id-refined.txt
+jq -r .tagline /tmp/bb-tracker/json/loading-message-raw-2.json > /tmp/bb-tracker/txt/loading-message-refined.txt
+loading_message_user_id=$(cat /tmp/bb-tracker/txt/loading-message-user-id-refined.txt)
+loading_message_user=$(cat /tmp/bb-tracker/txt/loading-message-user-refined.txt)
+current_loading_message=$(cat /tmp/bb-tracker/txt/loading-message-refined.txt)
+echo " "
+echo -e "${YELLOW}Current loading message:${NC}\n${NC}$current_loading_message${NC}"
+echo " "
+echo -e "${YELLOW}By:\n${NC}${NC}$loading_message_user${NC} ${YELLOW}($loading_message_user_id)${NC}\n"
 echo -e "${RED}Press any key to proceed.${NC}"
 while true; do
 read -rsn1 key
