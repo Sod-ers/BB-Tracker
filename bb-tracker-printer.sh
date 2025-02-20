@@ -10,7 +10,25 @@ touch /tmp/bb-tracker/log.txt
 log_timestamp=$(date "+%D  %I:%M:%S %p")
 api_key=$(cat ~/.config/bb-tracker/api-key.txt 2>/dev/null)
 
-echo "bb-tracker-printer.sh executed - $log_timestamp" >> /tmp/bb-tracker/log.txt
+easy_favorite_maps_emailing () {
+if grep -q -e surf_utopia_njv /tmp/bb-tracker/txt/surf-easy-current-map.txt
+then
+echo "Current Map:
+$surf_easy_current_map ($surf_easy_current_players/$surf_easy_max_players)" | mail -s "Favorite Map Detected" $email_address
+else
+echo "Favorite maps not detected, do not email"
+fi
+}
+
+hard_favorite_maps_emailing () {
+if grep -q -e surf_loves_spliff /tmp/bb-tracker/txt/surf-hard-current-map.txt
+then
+echo "Current Map:
+$surf_hard_current_map ($surf_hard_current_players/$surf_hard_max_players)" | mail -s "Favorite Map Detected" $email_address
+else
+echo "Favorite maps not detected, do not email"
+fi
+}
 
 current_map_check () {
 curl -s 'https://bbservers.dev/v2/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: https://bbservers.dev' -H "apiKey: $api_key" --data-binary '{"query":"{\n  serverinfo {\n    name\n    queryInfo {\n      serverName\n      map\n      numPlayers\n      maxPlayers\n    }\n  }\n}"}' --compressed | jq '.' > /tmp/bb-tracker/json/current-maps-1.json
@@ -38,26 +56,6 @@ surf_easy_max_players=$(cat /tmp/bb-tracker/txt/surf-easy-max-players.txt)
 }
 current_map_check
 
-easy_favorite_maps_emailing () {
-if grep -q -e surf_utopia_njv /tmp/bb-tracker/txt/surf-easy-current-map.txt
-then
-echo "Current Map:
-$surf_easy_current_map ($surf_easy_current_players/$surf_easy_max_players)" | mail -s "Favorite Map Detected" $email
-else
-echo "Favorite maps not detected, do not email"
-fi
-}
-
-hard_favorite_maps_emailing () {
-if grep -q -e surf_loves_spliff /tmp/bb-tracker/txt/surf-hard-current-map.txt
-then
-echo "Current Map:
-$surf_hard_current_map ($surf_hard_current_players/$surf_hard_max_players)" | mail -s "Favorite Map Detected" $email
-else
-echo "Favorite maps not detected, do not email"
-fi
-}
-
 if [ -s /tmp/bb-tracker/txt/surf-hard-current-map.txt ]; then
 echo "Not empty, continue"
 else
@@ -83,6 +81,7 @@ echo -e "$surf_easy_current_map ($surf_easy_current_players/$surf_easy_max_playe
 echo -e "$surf_hard_current_map ($surf_hard_current_players/$surf_hard_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
 echo $time >> /tmp/bb-tracker/txt/printer-status.txt
 easy_favorite_maps_emailing
+hard_favorite_maps_emailing
 cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp0
 cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp1
 cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp2
@@ -103,6 +102,7 @@ echo -e "Current Maps:" > /tmp/bb-tracker/txt/printer-status.txt
 echo -e "$surf_easy_current_map ($surf_easy_current_players/$surf_easy_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
 echo -e "$surf_hard_current_map ($surf_hard_current_players/$surf_hard_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
 echo $time >> /tmp/bb-tracker/txt/printer-status.txt
+easy_favorite_maps_emailing
 hard_favorite_maps_emailing
 cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp0
 cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp1

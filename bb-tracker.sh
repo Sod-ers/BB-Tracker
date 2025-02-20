@@ -9,8 +9,8 @@ mkdir /tmp/bb-tracker/ 2> /dev/null
 mkdir /tmp/bb-tracker/calls/ 2> /dev/null
 mkdir /tmp/bb-tracker/json/ 2> /dev/null
 mkdir /tmp/bb-tracker/txt/ 2> /dev/null
-touch /tmp/bb-tracker/log.txt
 mkdir ~/.config/bb-tracker/ 2> /dev/null
+touch /tmp/bb-tracker/log.txt
 log_timestamp=$(date "+%D  %I:%M:%S %p")
 
 api_key_setup () {
@@ -184,6 +184,7 @@ surf_hard_plat_current_players=$(cat /tmp/bb-tracker/txt/surf-hard-plat-current-
 surf_hard_plat_max_players=$(cat /tmp/bb-tracker/txt/surf-hard-plat-max-players.txt)
 }
 
+platinum_check
 username=$(cat ~/.config/bb-tracker/username.txt)
 echo -e "${YELLOW}Welcome to BB Tracker 2.0, $username.${NC}"
 
@@ -200,10 +201,22 @@ select opt in "${options[@]}"
 do
     case $opt in
         "Check Current Maps")
-platinum_check
 current_map_check
-if grep -q false "/tmp/bb-tracker/txt/platinum_status.txt"; then
 echo -e "${YELLOW}Current Maps:"
+if grep -q true "/tmp/bb-tracker/txt/platinum_status.txt"; then
+if [ -s /tmp/bb-tracker/txt/surf-easy-plat-current-map.txt ]; then
+echo -e "${NC}$surf_easy_plat_server_name\n$surf_easy_plat_current_map\n($surf_easy_plat_current_players/$surf_easy_plat_max_players)"
+else
+echo "No map detected, hide." > /dev/null
+fi
+if [ -s /tmp/bb-tracker/txt/surf-hard-plat-current-map.txt ]; then
+echo -e "\n${NC}$surf_hard_plat_server_name\n$surf_hard_plat_current_map\n($surf_hard_plat_current_players/$surf_hard_plat_max_players)\n"
+else
+echo "No map detected, hide." > /dev/null
+fi
+else
+echo " " > /dev/null
+fi
 if [ -s /tmp/bb-tracker/txt/surf-easy-current-map.txt ]; then
 echo -e "${NC}$surf_easy_server_name\n$surf_easy_current_map\n($surf_easy_current_players/$surf_easy_max_players)"
 else
@@ -237,52 +250,6 @@ bash /tmp/bb-tracker.sh
 break
 fi
 done
-else
-echo -e "${YELLOW}Current Maps:"
-if [ -s /tmp/bb-tracker/txt/surf-easy-current-map.txt ]; then
-echo -e "${NC}$surf_easy_server_name\n$surf_easy_current_map\n($surf_easy_current_players/$surf_easy_max_players)"
-else
-echo "No map detected, hide." > /dev/null
-fi
-if [ -s /tmp/bb-tracker/txt/surf-easy-plat-current-map.txt ]; then
-echo -e "\n${NC}$surf_easy_plat_server_name\n$surf_easy_plat_current_map\n($surf_easy_plat_current_players/$surf_easy_plat_max_players)"
-else
-echo "No map detected, hide." > /dev/null
-fi
-if [ -s /tmp/bb-tracker/txt/surf-hard-current-map.txt ]; then
-echo -e "\n${NC}$surf_hard_server_name\n$surf_hard_current_map\n($surf_hard_current_players/$surf_hard_max_players)"
-else
-echo "No map detected, hide." > /dev/null
-fi
-if [ -s /tmp/bb-tracker/txt/surf-hard-current-map.txt ]; then
-echo -e "\n${NC}$surf_hard_plat_server_name\n$surf_hard_plat_current_map\n($surf_hard_plat_current_players/$surf_hard_plat_max_players)"
-else
-echo "No map detected, hide." > /dev/null
-fi
-if [ -s /tmp/bb-tracker/txt/climb-current-map.txt ]; then
-echo -e "\n${NC}$climb_server_name\n$climb_current_map\n($climb_current_players/$climb_max_players)"
-else
-echo "No map detected, hide." > /dev/null
-fi
-if [ -s /tmp/bb-tracker/txt/-gofish-current-map.txt ]; then
-echo -e "\n${NC}$gofish_server_name\n$gofish_current_map\n($gofish_current_players/$gofish_max_players)"
-else
-echo "No map detected, hide." > /dev/null
-fi
-if [ -s /tmp/bb-tracker/txt/deathrun-current-map.txt ]; then
-echo -e "\n${NC}$deathrun_server_name\n$deathrun_current_map\n($deathrun_current_players/$deathrun_max_players)"
-else
-echo "No map detected, hide." > /dev/null
-fi
-echo -e "${RED}Press any key to proceed.${NC}"
-while true; do
-read -rsn1 key
-if [[ -n "$key" ]]; then
-bash /tmp/bb-tracker.sh
-break
-fi
-done
-fi
             break
             ;;
         "Go Back")
