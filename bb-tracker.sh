@@ -109,6 +109,81 @@ sed -i "s/replace-id/$ACCOUNT_ID/g" /tmp/bb-tracker/calls/platinum_check.sh
 bash /tmp/bb-tracker/calls/platinum_check.sh
 }
 
+current_map_check () {
+curl -s 'https://bbservers.dev/v2/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: https://bbservers.dev' -H "apiKey: $api_key" --data-binary '{"query":"{\n  serverinfo {\n    name\n    queryInfo {\n      serverName\n      map\n      numPlayers\n      maxPlayers\n    }\n  }\n}"}' --compressed | jq '.' > /tmp/bb-tracker/json/current-maps-1.json
+jq '.data' /tmp/bb-tracker/json/current-maps-1.json > /tmp/bb-tracker/json/current-maps-2.json
+# gofish
+jq '.serverinfo[] | select(.name=="gofish")' /tmp/bb-tracker/json/current-maps-2.json > /tmp/bb-tracker/json/gofish-current.json
+jq -r '.queryInfo.serverName' /tmp/bb-tracker/json/gofish-current.json > /tmp/bb-tracker/txt/gofish-server-name.txt
+jq -r '.queryInfo.map' /tmp/bb-tracker/json/gofish-current.json > /tmp/bb-tracker/txt/gofish-current-map.txt
+jq -r '.queryInfo.numPlayers' /tmp/bb-tracker/json/gofish-current.json > /tmp/bb-tracker/txt/gofish-current-players.txt
+jq -r '.queryInfo.maxPlayers' /tmp/bb-tracker/json/gofish-current.json > /tmp/bb-tracker/txt/gofish-max-players.txt
+gofish_server_name=$(cat /tmp/bb-tracker/txt/gofish-server-name.txt)
+gofish_current_map=$(cat /tmp/bb-tracker/txt/gofish-current-map.txt)
+gofish_current_players=$(cat /tmp/bb-tracker/txt/gofish-current-players.txt)
+gofish_max_players=$(cat /tmp/bb-tracker/txt/gofish-max-players.txt)
+# deathrun
+jq '.serverinfo[] | select(.name=="deathrun")' /tmp/bb-tracker/json/current-maps-2.json > /tmp/bb-tracker/json/deathrun-current.json
+jq -r '.queryInfo.serverName' /tmp/bb-tracker/json/deathrun-current.json > /tmp/bb-tracker/txt/deathrun-server-name.txt
+jq -r '.queryInfo.map' /tmp/bb-tracker/json/deathrun-current.json > /tmp/bb-tracker/txt/deathrun-current-map.txt
+jq -r '.queryInfo.numPlayers' /tmp/bb-tracker/json/deathrun-current.json > /tmp/bb-tracker/txt/deathrun-current-players.txt
+jq -r '.queryInfo.maxPlayers' /tmp/bb-tracker/json/deathrun-current.json > /tmp/bb-tracker/txt/deathrun-max-players.txt
+deathrun_server_name=$(cat /tmp/bb-tracker/txt/deathrun-server-name.txt)
+deathrun_current_map=$(cat /tmp/bb-tracker/txt/deathrun-current-map.txt)
+deathrun_current_players=$(cat /tmp/bb-tracker/txt/deathrun-current-players.txt)
+deathrun_max_players=$(cat /tmp/bb-tracker/txt/deathrun-max-players.txt)
+# climb
+jq '.serverinfo[] | select(.name=="climb")' /tmp/bb-tracker/json/current-maps-2.json > /tmp/bb-tracker/json/climb-current.json
+jq -r '.queryInfo.serverName' /tmp/bb-tracker/json/climb-current.json > /tmp/bb-tracker/txt/climb-server-name.txt
+jq -r '.queryInfo.map' /tmp/bb-tracker/json/climb-current.json > /tmp/bb-tracker/txt/climb-current-map.txt
+jq -r '.queryInfo.numPlayers' /tmp/bb-tracker/json/climb-current.json > /tmp/bb-tracker/txt/climb-current-players.txt
+jq -r '.queryInfo.maxPlayers' /tmp/bb-tracker/json/climb-current.json > /tmp/bb-tracker/txt/climb-max-players.txt
+climb_server_name=$(cat /tmp/bb-tracker/txt/climb-server-name.txt)
+climb_current_map=$(cat /tmp/bb-tracker/txt/climb-current-map.txt)
+climb_current_players=$(cat /tmp/bb-tracker/txt/climb-current-players.txt)
+climb_max_players=$(cat /tmp/bb-tracker/txt/climb-max-players.txt)
+# surf-hard
+jq '.serverinfo[] | select(.name=="surf-hard")' /tmp/bb-tracker/json/current-maps-2.json > /tmp/bb-tracker/json/surf-hard-current.json
+jq -r '.queryInfo.serverName' /tmp/bb-tracker/json/surf-hard-current.json > /tmp/bb-tracker/txt/surf-hard-server-name.txt
+jq -r '.queryInfo.map' /tmp/bb-tracker/json/surf-hard-current.json > /tmp/bb-tracker/txt/surf-hard-current-map.txt
+jq -r '.queryInfo.numPlayers' /tmp/bb-tracker/json/surf-hard-current.json > /tmp/bb-tracker/txt/surf-hard-current-players.txt
+jq -r '.queryInfo.maxPlayers' /tmp/bb-tracker/json/surf-hard-current.json > /tmp/bb-tracker/txt/surf-hard-max-players.txt
+surf_hard_server_name=$(cat /tmp/bb-tracker/txt/surf-hard-server-name.txt)
+surf_hard_current_map=$(cat /tmp/bb-tracker/txt/surf-hard-current-map.txt)
+surf_hard_current_players=$(cat /tmp/bb-tracker/txt/surf-hard-current-players.txt)
+surf_hard_max_players=$(cat /tmp/bb-tracker/txt/surf-hard-max-players.txt)
+# surf-easy
+jq '.serverinfo[] | select(.name=="surf")' /tmp/bb-tracker/json/current-maps-2.json > /tmp/bb-tracker/json/surf-easy-current.json
+jq -r '.queryInfo.serverName' /tmp/bb-tracker/json/surf-easy-current.json > /tmp/bb-tracker/txt/surf-easy-server-name.txt
+jq -r '.queryInfo.map' /tmp/bb-tracker/json/surf-easy-current.json > /tmp/bb-tracker/txt/surf-easy-current-map.txt
+jq -r '.queryInfo.numPlayers' /tmp/bb-tracker/json/surf-easy-current.json > /tmp/bb-tracker/txt/surf-easy-current-players.txt
+jq -r '.queryInfo.maxPlayers' /tmp/bb-tracker/json/surf-easy-current.json > /tmp/bb-tracker/txt/surf-easy-max-players.txt
+surf_easy_server_name=$(cat /tmp/bb-tracker/txt/surf-easy-server-name.txt)
+surf_easy_current_map=$(cat /tmp/bb-tracker/txt/surf-easy-current-map.txt)
+surf_easy_current_players=$(cat /tmp/bb-tracker/txt/surf-easy-current-players.txt)
+surf_easy_max_players=$(cat /tmp/bb-tracker/txt/surf-easy-max-players.txt)
+# surf-easy-plat
+jq '.serverinfo[] | select(.name=="surf-easy-plat")' /tmp/bb-tracker/json/current-maps-2.json > /tmp/bb-tracker/json/surf-easy-plat-current.json
+jq -r '.queryInfo.serverName' /tmp/bb-tracker/json/surf-easy-plat-current.json > /tmp/bb-tracker/txt/surf-easy-plat-server-name.txt
+jq -r '.queryInfo.map' /tmp/bb-tracker/json/surf-easy-plat-current.json > /tmp/bb-tracker/txt/surf-easy-plat-current-map.txt
+jq -r '.queryInfo.numPlayers' /tmp/bb-tracker/json/surf-easy-plat-current.json > /tmp/bb-tracker/txt/surf-easy-plat-current-players.txt
+jq -r '.queryInfo.maxPlayers' /tmp/bb-tracker/json/surf-easy-plat-current.json > /tmp/bb-tracker/txt/surf-easy-plat-max-players.txt
+surf_easy_plat_server_name=$(cat /tmp/bb-tracker/txt/surf-easy-plat-server-name.txt)
+surf_easy_plat_current_map=$(cat /tmp/bb-tracker/txt/surf-easy-plat-current-map.txt)
+surf_easy_plat_current_players=$(cat /tmp/bb-tracker/txt/surf-easy-plat-current-players.txt)
+surf_easy_plat_max_players=$(cat /tmp/bb-tracker/txt/surf-easy-plat-max-players.txt)
+# surf-hard-plat
+jq '.serverinfo[] | select(.name=="surf-hard-plat")' /tmp/bb-tracker/json/current-maps-2.json > /tmp/bb-tracker/json/surf-hard-plat-current.json
+jq -r '.queryInfo.serverName' /tmp/bb-tracker/json/surf-hard-plat-current.json > /tmp/bb-tracker/txt/surf-hard-plat-server-name.txt
+jq -r '.queryInfo.map' /tmp/bb-tracker/json/surf-hard-plat-current.json > /tmp/bb-tracker/txt/surf-hard-plat-current-map.txt
+jq -r '.queryInfo.numPlayers' /tmp/bb-tracker/json/surf-hard-plat-current.json > /tmp/bb-tracker/txt/surf-hard-plat-current-players.txt
+jq -r '.queryInfo.maxPlayers' /tmp/bb-tracker/json/surf-hard-plat-current.json > /tmp/bb-tracker/txt/surf-hard-plat-max-players.txt
+surf_hard_plat_server_name=$(cat /tmp/bb-tracker/txt/surf-hard-plat-server-name.txt)
+surf_hard_plat_current_map=$(cat /tmp/bb-tracker/txt/surf-hard-plat-current-map.txt)
+surf_hard_plat_current_players=$(cat /tmp/bb-tracker/txt/surf-hard-plat-current-players.txt)
+surf_hard_plat_max_players=$(cat /tmp/bb-tracker/txt/surf-hard-plat-max-players.txt)
+}
+
 username=$(cat ~/.config/bb-tracker/username.txt)
 echo -e "${YELLOW}Welcome to BB Tracker 2.0, $username.${NC}"
 
@@ -126,7 +201,40 @@ do
     case $opt in
         "Check Current Maps")
 platinum_check
-cat /tmp/bb-tracker/txt/platinum_status.txt
+current_map_check
+if grep -q false "/tmp/bb-tracker/txt/platinum_status.txt"; then
+echo -e "${YELLOW}Current Maps:"
+echo -e "${NC}$surf_easy_server_name\n$surf_easy_current_map\n($surf_easy_current_players/$surf_easy_max_players)"
+echo -e "\n${NC}$surf_hard_server_name\n$surf_hard_current_map\n($surf_hard_current_players/$surf_hard_max_players)"
+echo -e "\n${NC}$climb_server_name\n$climb_current_map\n($climb_current_players/$climb_max_players)"
+echo -e "\n${NC}$gofish_server_name\n$gofish_current_map\n($gofish_current_players/$gofish_max_players)"
+echo -e "\n${NC}$deathrun_server_name\n$deathrun_current_map\n($deathrun_current_players/$deathrun_max_players)"
+echo -e "${RED}Press any key to proceed.${NC}"
+while true; do
+read -rsn1 key
+if [[ -n "$key" ]]; then
+bash /tmp/bb-tracker.sh
+break
+fi
+done
+else
+echo -e "${YELLOW}Current Maps:"
+echo -e "${NC}$surf_easy_server_name\n$surf_easy_current_map\n($surf_easy_current_players/$surf_easy_max_players)"
+echo -e "\n${NC}$surf_easy_plat_server_name\n$surf_easy_plat_current_map\n($surf_easy_plat_current_players/$surf_easy_plat_max_players)"
+echo -e "\n${NC}$surf_hard_server_name\n$surf_hard_current_map\n($surf_hard_current_players/$surf_hard_max_players)"
+echo -e "\n${NC}$surf_hard_plat_server_name\n$surf_hard_plat_current_map\n($surf_hard_plat_current_players/$surf_hard_plat_max_players)"
+echo -e "\n${NC}$climb_server_name\n$climb_current_map\n($climb_current_players/$climb_max_players)"
+echo -e "\n${NC}$gofish_server_name\n$gofish_current_map\n($gofish_current_players/$gofish_max_players)"
+echo -e "\n${NC}$deathrun_server_name\n$deathrun_current_map\n($deathrun_current_players/$deathrun_max_players)"
+echo -e "${RED}Press any key to proceed.${NC}"
+while true; do
+read -rsn1 key
+if [[ -n "$key" ]]; then
+bash /tmp/bb-tracker.sh
+break
+fi
+done
+fi
             break
             ;;
         "Go Back")
