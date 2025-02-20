@@ -38,6 +38,26 @@ surf_easy_max_players=$(cat /tmp/bb-tracker/txt/surf-easy-max-players.txt)
 }
 current_map_check
 
+easy_favorite_maps_emailing () {
+if grep -q -e surf_utopia_njv /tmp/bb-tracker/txt/surf-easy-current-map.txt
+then
+echo "Current Map:
+$surf_easy_current_map ($surf_easy_current_players/$surf_easy_max_players)" | mail -s "Favorite Map Detected" $email
+else
+echo "Favorite maps not detected, do not email"
+fi
+}
+
+hard_favorite_maps_emailing () {
+if grep -q -e surf_loves_spliff /tmp/bb-tracker/txt/surf-hard-current-map.txt
+then
+echo "Current Map:
+$surf_hard_current_map ($surf_hard_current_players/$surf_hard_max_players)" | mail -s "Favorite Map Detected" $email
+else
+echo "Favorite maps not detected, do not email"
+fi
+}
+
 if [ -s /tmp/bb-tracker/txt/surf-hard-current-map.txt ]; then
 echo "Not empty, continue"
 else
@@ -56,41 +76,40 @@ diff --brief <(sort /tmp/bb-tracker/txt/surf-easy-current-map.txt) <(sort /tmp/b
 comp_value=$?
 if [ $comp_value -eq 1 ]
 then
+cp /tmp/bb-tracker/txt/surf-hard-current-map.txt /tmp/bb-tracker/txt/surf-hard-last-known-map.txt
+cp /tmp/bb-tracker/txt/surf-easy-current-map.txt /tmp/bb-tracker/txt/surf-easy-last-known-map.txt
 echo "Current Maps:" > /tmp/bb-tracker/txt/printer-status.txt
 echo -e "$surf_easy_current_map ($surf_easy_current_players/$surf_easy_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
 echo -e "$surf_hard_current_map ($surf_hard_current_players/$surf_hard_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
 echo $time >> /tmp/bb-tracker/txt/printer-status.txt
-else
-exit 1
-fi
-
-diff --brief <(sort /tmp/bb-tracker/txt/surf-hard-current-map.txt) <(sort /tmp/bb-tracker/txt/surf-hard-last-known-map.txt) >/dev/null
-comp_value=$?
-if [ $comp_value -eq 1 ]
-then
-echo -e "Current Maps:" > /tmp/bb-tracker/txt/printer-status.txt
-echo -e "$surf_easy_current_map ($surf_easy_current_players/$surf_easy_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
-echo -e "$surf_hard_current_map ($surf_hard_current_players/$surf_hard_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
-echo $time >> /tmp/bb-tracker/txt/printer-status.txt
-else
-exit 1
-fi
-
-cp /tmp/bb-tracker/txt/surf-hard-current-map.txt /tmp/bb-tracker/txt/surf-hard-last-known-map.txt
-cp /tmp/bb-tracker/txt/surf-easy-current-map.txt /tmp/bb-tracker/txt/surf-easy-last-known-map.txt
-
-if grep -q -e surf_utopia_njv /tmp/bb-tracker/txt/surf-easy-current-map.txt /tmp/bb-tracker/txt/surf-hard-current-map.txt
-then
-echo "Current Maps:
-$surf_easy_current_map ($surf_easy_current_players/$surf_easy_max_players)
-$surf_hard_current_map ($surf_hard_current_players/$surf_hard_max_players)" | mail -s "Favorite Map Detected" $email
-else
-echo "Favorite maps not detected, do not email"
-fi
-
+easy_favorite_maps_emailing
 cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp0
 cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp1
 cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp2
 lpr -o fit-to-page -o media=Custom.70x25mm -P EPSON_TM-T20II ~/.config/bb-tracker-printer/QR.jpg
 sleep 5
 lprm
+else
+echo " "
+fi
+
+diff --brief <(sort /tmp/bb-tracker/txt/surf-hard-current-map.txt) <(sort /tmp/bb-tracker/txt/surf-hard-last-known-map.txt) >/dev/null
+comp_value=$?
+if [ $comp_value -eq 1 ]
+then
+cp /tmp/bb-tracker/txt/surf-hard-current-map.txt /tmp/bb-tracker/txt/surf-hard-last-known-map.txt
+cp /tmp/bb-tracker/txt/surf-easy-current-map.txt /tmp/bb-tracker/txt/surf-easy-last-known-map.txt
+echo -e "Current Maps:" > /tmp/bb-tracker/txt/printer-status.txt
+echo -e "$surf_easy_current_map ($surf_easy_current_players/$surf_easy_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
+echo -e "$surf_hard_current_map ($surf_hard_current_players/$surf_hard_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
+echo $time >> /tmp/bb-tracker/txt/printer-status.txt
+hard_favorite_maps_emailing
+cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp0
+cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp1
+cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp2
+lpr -o fit-to-page -o media=Custom.70x25mm -P EPSON_TM-T20II ~/.config/bb-tracker-printer/QR.jpg
+sleep 5
+lprm
+else
+echo " "
+fi
