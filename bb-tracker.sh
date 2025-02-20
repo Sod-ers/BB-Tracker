@@ -13,6 +13,17 @@ mkdir ~/.config/bb-tracker/ 2> /dev/null
 touch /tmp/bb-tracker/log.txt
 log_timestamp=$(date "+%D  %I:%M:%S %p")
 
+echo -e ${YELLOW}⢠⣤⣤⠀⠀⠀⠀⠀⠀⣤⣤⡄${NC}⠀⠀⠀⠀⠀⢰⣶⣶⣶⣶⣶⣶⣶⣶⣶⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣶⣶⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${RED}⠀⠀⣠⣴⣶⣶⣶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣶⣶⣶⣄⠀⠀⠀${NC}
+echo -e ${YELLOW}⢸⣿⣿⠀⠀⠀⠀⠀⠀⣿⣿⡇${NC}⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${RED}⠀⣾⣿⣿⠿⠿⣿⣿⣷⠀⠀⠀⠀⠀⠀⠀⣴⣿⣿⡿⠿⣿⣿⣧⠀⠀${NC}
+echo -e ${YELLOW}⢸⣿⣿⠀⠀⠀⠀⠀⠀⣿⣿⡇${NC}⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⢀⣀⣀⠀⣠⣄⠀⠀⢀⣠⣤⣄⣀⠀⠀⠀⠀⠀⢀⣠⣤⣄⡀⠀⠀⠀⣿⣿⡇⠀⠀⢀⣀⣀⡀⠀⠀⣀⣤⣤⣀⠀⠀⠀⠀⣀⣀⡀⣀⣤⠀${RED}⢸⣿⣿⠁⠀⠀⠘⣿⣿⡇⠀⠀⠀⠀⠀⢰⣿⣿⠏⠀⠀⠘⣿⣿⣇⠀${NC}
+echo -e ${YELLOW}⢸⣿⣿⣶⣶⣶⣦⣄⠀⣿⣿⣷⣶⣶⣶⣦⡀${NC}⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⢸⣿⣿⣾⣿⣿⠀⣴⣿⣿⣿⣿⣿⣷⡀⠀⠀⣴⣿⣿⣿⣿⣿⣦⠀⠀⣿⣿⡇⠀⢠⣿⣿⠟⠀⢀⣾⣿⣿⣿⣿⣷⡄⠀⠀⣿⣿⣷⣿⣿⠀${RED}⠈⠉⠉⠀⠀⠀⢠⣿⣿⠇⠀⠀⠀⠀⠀⣾⣿⣿⠀⠀⠀⠀⢹⣿⣿⠀${NC}
+echo -e ${YELLOW}⢸⣿⣿⣿⣿⣿⣿⣿⡆⣿⣿⣿⣿⣿⣿⣿⣿${NC}⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⢸⣿⣿⠟⠉⠉⠠⠿⠿⠋⠀⠈⣿⣿⡇⠀⣸⣿⣿⠋⠀⠙⣿⣿⡇⠀⣿⣿⡇⢠⣿⣿⠏⠀⠀⣾⣿⡟⠁⠀⠹⣿⣿⡀⠀⣿⣿⡿⠋⠉⠀${RED}⠀⠀⠀⠀⠀⢠⣾⣿⡟⠀⠀⠀⠀⠀⠀⣿⣿⡇⠀⠀⠀⠀⢸⣿⣿⠀${NC}
+echo -e ${YELLOW}⠀⠀⠀⠀⠀⠈⢻⣿⣷⠀⠀⠀⠀⠀⠙⣿⣿⡇${NC}⠀⠀⠀⣿⣿⣿⠀⠀⠀⢸⣿⣿⠀⠀⠀⠀⢀⣠⣤⣤⣤⣿⣿⡇⠀⣿⣿⡏⠀⠀⠀⠈⠉⠁⠀⣿⣿⣷⣿⣿⡃⠀⠀⢰⣿⣿⣦⣤⣤⣤⣿⣿⡇⠀⣿⣿⡇⠀⠀⠀${RED}⠀⠀⠀⠀⣰⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⣿⣿⣇⠀⠀⠀⠀⢸⣿⣿⠀${NC}
+echo -e ${YELLOW}⠀⠀⠀⠀⠀⠀⢸⣿⣿⠀⠀⠀⠀⠀⠀⣿⣿⡇${NC}⠀⠀⠀⣿⣿⣿⠀⠀⠀⢸⣿⣿⠀⠀⠀⢠⣿⣿⡿⠿⠛⣿⣿⡇⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣷⠀⠀⢸⣿⣿⠟⠛⠛⠛⠛⠛⠃⠀⣿⣿⡇⠀⠀⠀${RED}⠀⠀⢀⣾⣿⡿⠃⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⠀⠀⠀⠀⣸⣿⣿⠀${NC}
+echo -e ${YELLOW}⢀⣤⣤⣤⣤⣤⣿⣿⡟⣠⣤⣤⣤⣤⣼⣿⣿⠇${NC}⠀⠀⠀⣿⣿⣿⠀⠀⠀⢸⣿⣿⠀⠀⠀⢸⣿⣿⠀⠀⢀⣿⣿⡇⠀⢻⣿⣷⡀⠀⠀⣾⣿⡇⠀⣿⣿⡏⠘⣿⣿⣧⠀⠀⣿⣿⣇⠀⠀⠀⣤⣤⡄⠀⣿⣿⡇⠀⠀⠀${RED}⠀⣠⣿⣿⠟⠀⠀⠀⠀⠀⠀⢀⣄⡀⠀⠸⣿⣿⣆⠀⠀⢠⣿⣿⡏⠀${NC}
+echo -e ${YELLOW}⢸⣿⣿⣿⣿⣿⣿⣿⠇⣿⣿⣿⣿⣿⣿⣿⡿${NC}⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⢸⣿⣿⠀⠀⠀⠸⣿⣿⣶⣶⣿⣿⣿⡇⠀⠈⢿⣿⣿⣶⣾⣿⡿⠁⠀⣿⣿⡇⠀⠘⣿⣿⣧⠀⠹⣿⣿⣶⣶⣾⣿⡟⠀⠀⣿⣿⡇⠀⠀⠀${RED}⢸⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⣿⣿⣷⠀⠀⠹⣿⣿⣷⣾⣿⣿⡟⠀⠀${NC}
+echo -e ${YELLOW}⠘⠛⠛⠛⠛⠛⠛⠉⠀⠛⠛⠛⠛⠛⠛⠋⠁${NC}⠀⠀⠀⠀⠛⠛⠛⠀⠀⠀⠘⠛⠛⠀⠀⠀⠀⠙⠻⠿⠛⠁⠛⠛⠃⠀⠀⠀⠙⠻⠿⠟⠋⠀⠀⠀⠛⠛⠃⠀⠀⠘⠛⠛⠃⠀⠈⠛⠿⠿⠟⠋⠀⠀⠀⠛⠛⠃⠀⠀⠀${RED}⠘⠛⠛⠛⠛⠛⠛⠛⠛⠃⠀⠙⠿⠃⠀⠀⠀⠈⠛⠿⠿⠟⠋⠀${NC}
+
 api_key_setup () {
 rm ~/.config/bb-tracker/api-key.txt 2> /dev/null & rm ~/.config/bb-tracker/username.txt 2> /dev/null & rm ~/.config/bb-tracker/account-id.txt 2> /dev/null & rm /tmp/bb-tracker/calls/login.sh 2> /dev/null
 
@@ -186,7 +197,7 @@ surf_hard_plat_max_players=$(cat /tmp/bb-tracker/txt/surf-hard-plat-max-players.
 
 platinum_check
 username=$(cat ~/.config/bb-tracker/username.txt)
-echo -e "${YELLOW}Welcome to BB Tracker 2.0, $username.${NC}"
+echo -e "${YELLOW}Welcome, $username.${NC}"
 
 printf "\033]0;%s\a" "BB Tracker"
 export PS3=$'\033[0;33mSelect an option: \e[0m'
