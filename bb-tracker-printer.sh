@@ -30,6 +30,28 @@ echo "Favorite maps not detected, do not email"
 fi
 }
 
+easy_server_emailing_validator () {
+diff --brief <(sort /tmp/bb-tracker/txt/surf-easy-current-map.txt) <(sort /tmp/bb-tracker/txt/surf-easy-last-known-map.txt) >/dev/null
+comp_value=$?
+if [ $comp_value -eq 1 ]
+then
+easy_favorite_maps_emailing
+else
+echo " "
+fi    
+}
+
+hard_server_emailing_validator () {
+diff --brief <(sort /tmp/bb-tracker/txt/surf-hard-current-map.txt) <(sort /tmp/bb-tracker/txt/surf-hard-last-known-map.txt) >/dev/null
+comp_value=$?
+if [ $comp_value -eq 1 ]
+then
+hard_favorite_maps_emailing
+else
+echo " "
+fi    
+}
+
 current_map_check () {
 curl -s 'https://bbservers.dev/v2/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: https://bbservers.dev' -H "apiKey: $api_key" --data-binary '{"query":"{\n  serverinfo {\n    name\n    queryInfo {\n      serverName\n      map\n      numPlayers\n      maxPlayers\n    }\n  }\n}"}' --compressed | jq '.' > /tmp/bb-tracker/json/current-maps-1.json
 jq '.data' /tmp/bb-tracker/json/current-maps-1.json > /tmp/bb-tracker/json/current-maps-2.json
@@ -74,14 +96,14 @@ diff --brief <(sort /tmp/bb-tracker/txt/surf-easy-current-map.txt) <(sort /tmp/b
 comp_value=$?
 if [ $comp_value -eq 1 ]
 then
-cp /tmp/bb-tracker/txt/surf-hard-current-map.txt /tmp/bb-tracker/txt/surf-hard-last-known-map.txt
+easy_favorite_maps_emailing
+hard_favorite_maps_emailing
 cp /tmp/bb-tracker/txt/surf-easy-current-map.txt /tmp/bb-tracker/txt/surf-easy-last-known-map.txt
+cp /tmp/bb-tracker/txt/surf-hard-current-map.txt /tmp/bb-tracker/txt/surf-hard-last-known-map.txt
 echo "Current Maps:" > /tmp/bb-tracker/txt/printer-status.txt
 echo -e "$surf_easy_current_map ($surf_easy_current_players/$surf_easy_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
 echo -e "$surf_hard_current_map ($surf_hard_current_players/$surf_hard_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
 echo $time >> /tmp/bb-tracker/txt/printer-status.txt
-easy_favorite_maps_emailing
-hard_favorite_maps_emailing
 cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp0
 cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp1
 cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp2
@@ -96,14 +118,14 @@ diff --brief <(sort /tmp/bb-tracker/txt/surf-hard-current-map.txt) <(sort /tmp/b
 comp_value=$?
 if [ $comp_value -eq 1 ]
 then
+easy_favorite_maps_emailing
+hard_favorite_maps_emailing
 cp /tmp/bb-tracker/txt/surf-hard-current-map.txt /tmp/bb-tracker/txt/surf-hard-last-known-map.txt
 cp /tmp/bb-tracker/txt/surf-easy-current-map.txt /tmp/bb-tracker/txt/surf-easy-last-known-map.txt
 echo -e "Current Maps:" > /tmp/bb-tracker/txt/printer-status.txt
 echo -e "$surf_easy_current_map ($surf_easy_current_players/$surf_easy_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
 echo -e "$surf_hard_current_map ($surf_hard_current_players/$surf_hard_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
 echo $time >> /tmp/bb-tracker/txt/printer-status.txt
-easy_favorite_maps_emailing
-hard_favorite_maps_emailing
 cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp0
 cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp1
 cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp2

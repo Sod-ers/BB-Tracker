@@ -13,6 +13,8 @@ mkdir ~/.config/bb-tracker/ 2> /dev/null
 touch /tmp/bb-tracker/log.txt
 log_timestamp=$(date "+%D  %I:%M:%S %p")
 
+printf "\033]0;%s\a" "BB Tracker"
+
 echo -e ${YELLOW}⢠⣤⣤⠀⠀⠀⠀⠀⠀⣤⣤⡄${NC}⠀⠀⠀⠀⠀⢰⣶⣶⣶⣶⣶⣶⣶⣶⣶⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣶⣶⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${RED}⠀⠀⣠⣴⣶⣶⣶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣶⣶⣶⣄⠀⠀⠀${NC}
 echo -e ${YELLOW}⢸⣿⣿⠀⠀⠀⠀⠀⠀⣿⣿⡇${NC}⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${RED}⠀⣾⣿⣿⠿⠿⣿⣿⣷⠀⠀⠀⠀⠀⠀⠀⣴⣿⣿⡿⠿⣿⣿⣧⠀⠀${NC}
 echo -e ${YELLOW}⢸⣿⣿⠀⠀⠀⠀⠀⠀⣿⣿⡇${NC}⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⢀⣀⣀⠀⣠⣄⠀⠀⢀⣠⣤⣄⣀⠀⠀⠀⠀⠀⢀⣠⣤⣄⡀⠀⠀⠀⣿⣿⡇⠀⠀⢀⣀⣀⡀⠀⠀⣀⣤⣤⣀⠀⠀⠀⠀⣀⣀⡀⣀⣤⠀${RED}⢸⣿⣿⠁⠀⠀⠘⣿⣿⡇⠀⠀⠀⠀⠀⢰⣿⣿⠏⠀⠀⠘⣿⣿⣇⠀${NC}
@@ -76,7 +78,7 @@ echo "api_key_validator failed - $log_timestamp" >> /tmp/bb-tracker/log.txt
 api_key_setup
 else
 echo "api_key_validator passed - $log_timestamp" >> /tmp/bb-tracker/log.txt
-username_validator 
+username_validator
 fi
 }
 
@@ -199,7 +201,7 @@ platinum_check
 username=$(cat ~/.config/bb-tracker/username.txt)
 echo -e "${YELLOW}Welcome, $username.${NC}"
 
-printf "\033]0;%s\a" "BB Tracker"
+
 export PS3=$'\033[0;33mSelect an option: \e[0m'
 options=("Maps" "Check Lottery" "Check Loading Message" "Settings" "Logout" "Quit")
 select opt in "${options[@]}"
@@ -264,14 +266,14 @@ done
             break
             ;;
         "Go Back")
-bash /tmp/bb-tracker.sh        
+bash /tmp/bb-tracker.sh
             break
             ;;
         *) echo "invalid option $REPLY";;
     esac
 done
             break
-            ;;      
+            ;;
         "Check Lottery")
 curl -s 'https://bbservers.dev/v2/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: https://bbservers.dev' -H "apiKey: $api_key" --data-binary '{"query":"query{\n\t\tmiscdata { \n      lottery\n    }\n    }"}' --compressed | jq '.' > /tmp/bb-tracker/json/lottery-raw.json
 touch /tmp/bb-tracker/txt/lottery-refined.txt
@@ -308,7 +310,7 @@ break
 fi
 done
             break
-            ;;                        
+            ;;
         "Settings")
 export PS3=$'\033[0;33mSelect an option: \e[0m'
 options=("Toggle Printer" "Go Back")
@@ -318,7 +320,7 @@ do
         "Toggle Printer")
 if [ ! -f ~/.local/bin/bb-tracker-printer.sh ]; then
 echo -e "${RED}Thermal printer not connected. Visit BB-Tracker on GitHub for instructions.${NC}" && sleep 3
-bash /tmp/bb-tracker.sh 
+bash /tmp/bb-tracker.sh
 else
 export PS3=$'\033[0;33mSelect an option: \e[0m'
 options=("Enable" "Disable" "Go Back")
@@ -338,7 +340,7 @@ bash /tmp/bb-tracker.sh
             break
             ;;
         "Go Back")
-bash /tmp/bb-tracker.sh         
+bash /tmp/bb-tracker.sh
             break
             ;;
         *) echo "invalid option $REPLY";;
@@ -348,7 +350,7 @@ fi
             break
             ;;
         "Go Back")
-bash /tmp/bb-tracker.sh        
+bash /tmp/bb-tracker.sh
             break
             ;;
         *) echo "invalid option $REPLY";;
@@ -361,7 +363,7 @@ rm -r ~/.config/bb-tracker/ 2> /dev/null
 rm -r /tmp/bb-tracker/ 2> /dev/null
 rm /tmp/bb-tracker.sh 2> /dev/null
             break
-            ;;            
+            ;;
         "Quit")
             break
             ;;
