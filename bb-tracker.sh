@@ -204,11 +204,31 @@ platinum_check
 current_map_check
 if grep -q false "/tmp/bb-tracker/txt/platinum_status.txt"; then
 echo -e "${YELLOW}Current Maps:"
+if [ -s /tmp/bb-tracker/txt/surf-easy-current-map.txt ]; then
 echo -e "${NC}$surf_easy_server_name\n$surf_easy_current_map\n($surf_easy_current_players/$surf_easy_max_players)"
+else
+echo "No map detected, hide." > /dev/null
+fi
+if [ -s /tmp/bb-tracker/txt/surf-hard-current-map.txt ]; then
 echo -e "\n${NC}$surf_hard_server_name\n$surf_hard_current_map\n($surf_hard_current_players/$surf_hard_max_players)"
+else
+echo "No map detected, hide." > /dev/null
+fi
+if [ -s /tmp/bb-tracker/txt/climb-current-map.txt ]; then
 echo -e "\n${NC}$climb_server_name\n$climb_current_map\n($climb_current_players/$climb_max_players)"
+else
+echo "No map detected, hide." > /dev/null
+fi
+if [ -s /tmp/bb-tracker/txt/gofish-current-map.txt ]; then
 echo -e "\n${NC}$gofish_server_name\n$gofish_current_map\n($gofish_current_players/$gofish_max_players)"
+else
+echo "No map detected, hide." > /dev/null
+fi
+if [ -s /tmp/bb-tracker/txt/deathrun-current-map.txt ]; then
 echo -e "\n${NC}$deathrun_server_name\n$deathrun_current_map\n($deathrun_current_players/$deathrun_max_players)"
+else
+echo "No map detected, hide."
+fi
 echo -e "${RED}Press any key to proceed.${NC}"
 while true; do
 read -rsn1 key
@@ -219,13 +239,41 @@ fi
 done
 else
 echo -e "${YELLOW}Current Maps:"
+if [ -s /tmp/bb-tracker/txt/surf-easy-current-map.txt ]; then
 echo -e "${NC}$surf_easy_server_name\n$surf_easy_current_map\n($surf_easy_current_players/$surf_easy_max_players)"
+else
+echo "No map detected, hide." > /dev/null
+fi
+if [ -s /tmp/bb-tracker/txt/surf-easy-plat-current-map.txt ]; then
 echo -e "\n${NC}$surf_easy_plat_server_name\n$surf_easy_plat_current_map\n($surf_easy_plat_current_players/$surf_easy_plat_max_players)"
+else
+echo "No map detected, hide." > /dev/null
+fi
+if [ -s /tmp/bb-tracker/txt/surf-hard-current-map.txt ]; then
 echo -e "\n${NC}$surf_hard_server_name\n$surf_hard_current_map\n($surf_hard_current_players/$surf_hard_max_players)"
+else
+echo "No map detected, hide." > /dev/null
+fi
+if [ -s /tmp/bb-tracker/txt/surf-hard-current-map.txt ]; then
 echo -e "\n${NC}$surf_hard_plat_server_name\n$surf_hard_plat_current_map\n($surf_hard_plat_current_players/$surf_hard_plat_max_players)"
+else
+echo "No map detected, hide." > /dev/null
+fi
+if [ -s /tmp/bb-tracker/txt/climb-current-map.txt ]; then
 echo -e "\n${NC}$climb_server_name\n$climb_current_map\n($climb_current_players/$climb_max_players)"
+else
+echo "No map detected, hide." > /dev/null
+fi
+if [ -s /tmp/bb-tracker/txt/-gofish-current-map.txt ]; then
 echo -e "\n${NC}$gofish_server_name\n$gofish_current_map\n($gofish_current_players/$gofish_max_players)"
+else
+echo "No map detected, hide." > /dev/null
+fi
+if [ -s /tmp/bb-tracker/txt/deathrun-current-map.txt ]; then
 echo -e "\n${NC}$deathrun_server_name\n$deathrun_current_map\n($deathrun_current_players/$deathrun_max_players)"
+else
+echo "No map detected, hide." > /dev/null
+fi
 echo -e "${RED}Press any key to proceed.${NC}"
 while true; do
 read -rsn1 key
@@ -290,11 +338,34 @@ select opt in "${options[@]}"
 do
     case $opt in
         "Toggle Printer")
-if [ ! -f ~/.config/bb-tracker/thermal-printer.txt ]; then
+if [ ! -f ~/.local/bin/bb-tracker-printer.sh ]; then
 echo -e "${RED}Thermal printer not connected. Visit BB-Tracker on GitHub for instructions.${NC}" && sleep 3
 bash /tmp/bb-tracker.sh 
 else
-echo -e "${GREEN}Supported.${NC}"
+export PS3=$'\033[0;33mSelect an option: \e[0m'
+options=("Enable" "Disable" "Go Back")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "Enable")
+chmod +x ~/.local/bin/bb-tracker-printer.sh
+echo -e "${GREEN}Enabled.${NC}" && sleep 1
+bash /tmp/bb-tracker.sh
+            break
+            ;;
+        "Disable")
+chmod -x ~/.local/bin/bb-tracker-printer.sh
+echo -e "${RED}Disabled.${NC}" && sleep 1
+bash /tmp/bb-tracker.sh
+            break
+            ;;
+        "Go Back")
+bash /tmp/bb-tracker.sh         
+            break
+            ;;
+        *) echo "invalid option $REPLY";;
+    esac
+done
 fi
             break
             ;;
