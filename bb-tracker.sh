@@ -26,12 +26,12 @@ echo -e ${YELLOW}⢸⣿⣿⣿⣿⣿⣿⣿⠇⣿⣿⣿⣿⣿⣿⣿⡿${NC}⠀⠀�
 echo -e ${YELLOW}⠘⠛⠛⠛⠛⠛⠛⠉⠀⠛⠛⠛⠛⠛⠛⠋⠁${NC}⠀⠀⠀⠀⠛⠛⠛⠀⠀⠀⠘⠛⠛⠀⠀⠀⠀⠙⠻⠿⠛⠁⠛⠛⠃⠀⠀⠀⠙⠻⠿⠟⠋⠀⠀⠀⠛⠛⠃⠀⠀⠘⠛⠛⠃⠀⠈⠛⠿⠿⠟⠋⠀⠀⠀⠛⠛⠃⠀⠀⠀${RED}⠘⠛⠛⠛⠛⠛⠛⠛⠛⠃⠀⠙⠿⠃⠀⠀⠀⠈⠛⠿⠿⠟⠋⠀${NC}
 
 api_key_setup () {
-rm ~/.config/bb-tracker/api-key.txt 2> /dev/null & rm ~/.config/bb-tracker/username.txt 2> /dev/null & rm ~/.config/bb-tracker/account-id.txt 2> /dev/null & rm /tmp/bb-tracker/calls/login.sh 2> /dev/null
+rm ~/.config/bb-tracker/.env 2> /dev/null & rm ~/.config/bb-tracker/username.txt 2> /dev/null & rm ~/.config/bb-tracker/account-id.txt 2> /dev/null & rm /tmp/bb-tracker/calls/login.sh 2> /dev/null
 
 echo -e "${RED}Configuration missing or incorrect..${NC}"
 
 prompt="Enter BB api key: "
-bb_tracker_api_key=""
+bb_api_key=""
 
 stty -echo
 
@@ -41,12 +41,12 @@ while IFS= read -r -s -n1 char; do
   if [[ $char == $'\0' ]]; then
     break
   elif [[ $char == $'\177' ]]; then
-    if [ ${#bb_tracker_api_key} -gt 0 ]; then
-      bb_tracker_api_key="${bb_tracker_api_key%?}"
+    if [ ${#bb_api_key} -gt 0 ]; then
+      bb_api_key="${bb_api_key%?}"
       printf "\b \b"
     fi
   else
-    bb_tracker_api_key+="$char"
+    bb_api_key+="$char"
     printf "*"
   fi
 done
@@ -54,8 +54,8 @@ done
 stty echo
 printf "\n"
 
-touch ~/.config/bb-tracker/api-key.txt
-echo $bb_tracker_api_key > ~/.config/bb-tracker/api-key.txt
+touch ~/.config/bb-tracker/.env
+echo $bb_api_key > ~/.config/bb-tracker/.env
 echo "api_key_setup completed. - $log_timestamp" >> /tmp/bb-tracker/log.txt
 account_id_setup
 }
@@ -72,7 +72,7 @@ api_key_validator
 }
 
 api_key_validator () {
-if [ ! -f ~/.config/bb-tracker/api-key.txt ]; then
+if [ ! -f ~/.config/bb-tracker/.env ]; then
 echo "api_key_validator failed - $log_timestamp" >> /tmp/bb-tracker/log.txt
 api_key_setup
 else
@@ -112,7 +112,7 @@ fi
 
 api_key_validator
 
-api_key=$(cat ~/.config/bb-tracker/api-key.txt 2>/dev/null)
+api_key=$(cat ~/.config/bb-tracker/.env 2>/dev/null)
 
 platinum_check () {
 ACCOUNT_ID=$(cat ~/.config/bb-tracker/account-id.txt)
