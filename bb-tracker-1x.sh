@@ -97,13 +97,15 @@ else
 exit 1
 fi
 
+echo "Manual check" > /tmp/bb-tracker/txt/surf-easy-last-known-map.txt
+
 diff --brief <(sort /tmp/bb-tracker/txt/surf-easy-current-map.txt) <(sort /tmp/bb-tracker/txt/surf-easy-last-known-map.txt) >/dev/null
 comp_value=$?
 if [ $comp_value -eq 1 ]
 then
-surf_easy_favorite_maps_emailing
-cp /tmp/bb-tracker/txt/surf-easy-current-map.txt /tmp/bb-tracker/txt/surf-easy-last-known-map.txt
-cp /tmp/bb-tracker/txt/surf-hard-current-map.txt /tmp/bb-tracker/txt/surf-hard-last-known-map.txt
+# surf_easy_favorite_maps_emailing
+# cp /tmp/bb-tracker/txt/surf-easy-current-map.txt /tmp/bb-tracker/txt/surf-easy-last-known-map.txt
+# cp /tmp/bb-tracker/txt/surf-hard-current-map.txt /tmp/bb-tracker/txt/surf-hard-last-known-map.txt
 echo "Current Maps:" > /tmp/bb-tracker/txt/printer-status.txt
 echo -e "$surf_easy_current_map ($surf_easy_current_players/$surf_easy_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
 echo -e "$surf_hard_current_map ($surf_hard_current_players/$surf_hard_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
@@ -117,9 +119,9 @@ diff --brief <(sort /tmp/bb-tracker/txt/surf-hard-current-map.txt) <(sort /tmp/b
 comp_value=$?
 if [ $comp_value -eq 1 ]
 then
-surf_hard_favorite_maps_emailing
-cp /tmp/bb-tracker/txt/surf-hard-current-map.txt /tmp/bb-tracker/txt/surf-hard-last-known-map.txt
-cp /tmp/bb-tracker/txt/surf-easy-current-map.txt /tmp/bb-tracker/txt/surf-easy-last-known-map.txt
+# surf_hard_favorite_maps_emailing
+# cp /tmp/bb-tracker/txt/surf-hard-current-map.txt /tmp/bb-tracker/txt/surf-hard-last-known-map.txt
+# cp /tmp/bb-tracker/txt/surf-easy-current-map.txt /tmp/bb-tracker/txt/surf-easy-last-known-map.txt
 echo -e "Current Maps:" > /tmp/bb-tracker/txt/printer-status.txt
 echo -e "$surf_easy_current_map ($surf_easy_current_players/$surf_easy_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
 echo -e "$surf_hard_current_map ($surf_hard_current_players/$surf_hard_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
@@ -130,4 +132,4 @@ rm /tmp/bb-tracker/txt/surf-hard-map-change-detected.txt
 fi
 
 surf_easy_map_change_validator
-surf_hard_map_change_validator
+# surf_hard_map_change_validator
