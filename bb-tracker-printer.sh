@@ -9,8 +9,9 @@ touch /tmp/bb-tracker/log.txt
 
 log_timestamp=$(date "+%D  %I:%M:%S %p")
 api_key=$(cat ~/.config/bb-tracker/api-key.txt 2>/dev/null)
+time=$(date "+%I:%M:%S %p  %D")
 
-easy_favorite_maps_emailing () {
+easy_surf_favorite_maps_emailing () {
 if grep -q -e surf_utopia_njv /tmp/bb-tracker/txt/surf-easy-current-map.txt
 then
 echo "Current Map:
@@ -20,7 +21,7 @@ echo "Favorite maps not detected, do not email"
 fi
 }
 
-hard_favorite_maps_emailing () {
+hard_surf_favorite_maps_emailing () {
 if grep -q -e surf_loves_spliff /tmp/bb-tracker/txt/surf-hard-current-map.txt
 then
 echo "Current Map:
@@ -30,26 +31,32 @@ echo "Favorite maps not detected, do not email"
 fi
 }
 
-easy_server_emailing_validator () {
-diff --brief <(sort /tmp/bb-tracker/txt/surf-easy-current-map.txt) <(sort /tmp/bb-tracker/txt/surf-easy-last-known-map.txt) >/dev/null
-comp_value=$?
-if [ $comp_value -eq 1 ]
-then
-easy_favorite_maps_emailing
+easy_map_change_validator () {
+if [ ! -f /tmp/bb-tracker/txt/surf-easy-map-change-detected.txt ]; then
+echo "No easy map change detected, checking hard server"
 else
-echo " "
-fi    
+cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp0
+cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp1
+cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp2
+lpr -o fit-to-page -o media=Custom.70x25mm -P EPSON_TM-T20II ~/.config/bb-tracker-printer/QR.jpg
+sleep 5
+lprm
+exit 1
+fi
 }
 
-hard_server_emailing_validator () {
-diff --brief <(sort /tmp/bb-tracker/txt/surf-hard-current-map.txt) <(sort /tmp/bb-tracker/txt/surf-hard-last-known-map.txt) >/dev/null
-comp_value=$?
-if [ $comp_value -eq 1 ]
-then
-hard_favorite_maps_emailing
+hard_map_change_validator () {
+if [ ! -f /tmp/bb-tracker/txt/surf-hard-map-change-detected.txt ]; then
+echo "No hard map change detected, do nothing"
 else
-echo " "
-fi    
+cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp0
+cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp1
+cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp2
+lpr -o fit-to-page -o media=Custom.70x25mm -P EPSON_TM-T20II ~/.config/bb-tracker-printer/QR.jpg
+sleep 5
+lprm
+exit 1
+fi
 }
 
 current_map_check () {
@@ -78,60 +85,49 @@ surf_easy_max_players=$(cat /tmp/bb-tracker/txt/surf-easy-max-players.txt)
 }
 current_map_check
 
-if [ -s /tmp/bb-tracker/txt/surf-hard-current-map.txt ]; then
-echo "Not empty, continue"
-else
-exit 1
-fi
-
 if [ -s /tmp/bb-tracker/txt/surf-easy-current-map.txt ]; then
 echo "Not empty, continue"
 else
 exit 1
 fi
 
-time=$(date "+%I:%M:%S %p  %D")
+if [ -s /tmp/bb-tracker/txt/surf-hard-current-map.txt ]; then
+echo "Not empty, continue"
+else
+exit 1
+fi
 
 diff --brief <(sort /tmp/bb-tracker/txt/surf-easy-current-map.txt) <(sort /tmp/bb-tracker/txt/surf-easy-last-known-map.txt) >/dev/null
 comp_value=$?
 if [ $comp_value -eq 1 ]
 then
-easy_favorite_maps_emailing
-hard_favorite_maps_emailing
+easy_surf_favorite_maps_emailing
 cp /tmp/bb-tracker/txt/surf-easy-current-map.txt /tmp/bb-tracker/txt/surf-easy-last-known-map.txt
 cp /tmp/bb-tracker/txt/surf-hard-current-map.txt /tmp/bb-tracker/txt/surf-hard-last-known-map.txt
 echo "Current Maps:" > /tmp/bb-tracker/txt/printer-status.txt
 echo -e "$surf_easy_current_map ($surf_easy_current_players/$surf_easy_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
 echo -e "$surf_hard_current_map ($surf_hard_current_players/$surf_hard_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
 echo $time >> /tmp/bb-tracker/txt/printer-status.txt
-cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp0
-cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp1
-cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp2
-lpr -o fit-to-page -o media=Custom.70x25mm -P EPSON_TM-T20II ~/.config/bb-tracker-printer/QR.jpg
-sleep 5
-lprm
+touch /tmp/bb-tracker/txt/surf-easy-map-change-detected.txt
 else
-echo " "
+rm /tmp/bb-tracker/txt/surf-easy-map-change-detected.txt
 fi
 
 diff --brief <(sort /tmp/bb-tracker/txt/surf-hard-current-map.txt) <(sort /tmp/bb-tracker/txt/surf-hard-last-known-map.txt) >/dev/null
 comp_value=$?
 if [ $comp_value -eq 1 ]
 then
-easy_favorite_maps_emailing
-hard_favorite_maps_emailing
+hard_surf_favorite_maps_emailing
 cp /tmp/bb-tracker/txt/surf-hard-current-map.txt /tmp/bb-tracker/txt/surf-hard-last-known-map.txt
 cp /tmp/bb-tracker/txt/surf-easy-current-map.txt /tmp/bb-tracker/txt/surf-easy-last-known-map.txt
 echo -e "Current Maps:" > /tmp/bb-tracker/txt/printer-status.txt
 echo -e "$surf_easy_current_map ($surf_easy_current_players/$surf_easy_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
 echo -e "$surf_hard_current_map ($surf_hard_current_players/$surf_hard_max_players)" >> /tmp/bb-tracker/txt/printer-status.txt
 echo $time >> /tmp/bb-tracker/txt/printer-status.txt
-cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp0
-cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp1
-cat /tmp/bb-tracker/txt/printer-status.txt >> /dev/usb/lp2
-lpr -o fit-to-page -o media=Custom.70x25mm -P EPSON_TM-T20II ~/.config/bb-tracker-printer/QR.jpg
-sleep 5
-lprm
+touch /tmp/bb-tracker/txt/surf-hard-map-change-detected.txt
 else
-echo " "
+rm /tmp/bb-tracker/txt/surf-hard-map-change-detected.txt
 fi
+
+easy_map_change_validator
+hard_map_change_validator

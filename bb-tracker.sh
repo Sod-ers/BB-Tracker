@@ -14,7 +14,6 @@ touch /tmp/bb-tracker/log.txt
 log_timestamp=$(date "+%D  %I:%M:%S %p")
 
 printf "\033]0;%s\a" "BB Tracker"
-
 echo -e ${YELLOW}⢠⣤⣤⠀⠀⠀⠀⠀⠀⣤⣤⡄${NC}⠀⠀⠀⠀⠀⢰⣶⣶⣶⣶⣶⣶⣶⣶⣶⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣶⣶⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${RED}⠀⠀⣠⣴⣶⣶⣶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣶⣶⣶⣄⠀⠀⠀${NC}
 echo -e ${YELLOW}⢸⣿⣿⠀⠀⠀⠀⠀⠀⣿⣿⡇${NC}⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${RED}⠀⣾⣿⣿⠿⠿⣿⣿⣷⠀⠀⠀⠀⠀⠀⠀⣴⣿⣿⡿⠿⣿⣿⣧⠀⠀${NC}
 echo -e ${YELLOW}⢸⣿⣿⠀⠀⠀⠀⠀⠀⣿⣿⡇${NC}⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⢀⣀⣀⠀⣠⣄⠀⠀⢀⣠⣤⣄⣀⠀⠀⠀⠀⠀⢀⣠⣤⣄⡀⠀⠀⠀⣿⣿⡇⠀⠀⢀⣀⣀⡀⠀⠀⣀⣤⣤⣀⠀⠀⠀⠀⣀⣀⡀⣀⣤⠀${RED}⢸⣿⣿⠁⠀⠀⠘⣿⣿⡇⠀⠀⠀⠀⠀⢰⣿⣿⠏⠀⠀⠘⣿⣿⣇⠀${NC}
@@ -200,7 +199,6 @@ surf_hard_plat_max_players=$(cat /tmp/bb-tracker/txt/surf-hard-plat-max-players.
 platinum_check
 username=$(cat ~/.config/bb-tracker/username.txt)
 echo -e "${YELLOW}Welcome, $username.${NC}"
-
 
 export PS3=$'\033[0;33mSelect an option: \e[0m'
 options=("Maps" "Check Lottery" "Check Loading Message" "Settings" "Logout" "Quit")
