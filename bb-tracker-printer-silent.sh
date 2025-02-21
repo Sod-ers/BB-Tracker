@@ -97,6 +97,8 @@ else
 exit 1
 fi
 
+echo "Manual check" > /tmp/bb-tracker/txt/surf-easy-last-known-map.txt
+
 diff --brief <(sort /tmp/bb-tracker/txt/surf-easy-current-map.txt) <(sort /tmp/bb-tracker/txt/surf-easy-last-known-map.txt) >/dev/null
 comp_value=$?
 if [ $comp_value -eq 1 ]
