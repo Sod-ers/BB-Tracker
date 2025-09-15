@@ -40,4 +40,7 @@ Postfix\
 S-nail\
 Mailutils\
 Epson TM-T20II Software & Documents Disc (tmx-cups-2.0.3.0.tar.gz)\
-CUPS
+CUPS  
+  
+### Credits:
+- BB logo belongs to BB Game Servers.
